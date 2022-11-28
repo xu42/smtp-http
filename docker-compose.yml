@@ -1,0 +1,13 @@
+version: '3'
+services:
+  app:
+    image: 'xu42/smtp-http'
+    restart: unless-stopped
+    environment:
+      HOST: "$HOST"
+      PORT: "$PORT"
+      FROM_EMAIL: "$FROM_EMAIL"
+      PASSWORD: "$PASSWORD"
+      CONTENT_TYPE: "$CONTENT_TYPE"
+    ports:
+      - '18081:80'
