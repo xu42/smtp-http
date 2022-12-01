@@ -48,6 +48,10 @@ docker-compose up -d
 curl -H 'content-type: application/json' -X POST "http://127.0.0.1:18081/send" -d '{"fromName":"Order Notify","toEmail":"receiver@gmail.com","subject":"Order Notify: New Order","body":"this is a test email"}'
 ```
 
+## Reference
+- https://www.cnblogs.com/aaronhoo/p/16364492.html
+- https://cloud.tencent.com/document/product/1288/65752
+
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE) for more information.
