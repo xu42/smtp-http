@@ -10,6 +10,7 @@ import (
 	"net/smtp"
 	"os"
 	"strconv"
+	"time"
 )
 
 var contextChan chan *Context
@@ -49,17 +50,21 @@ func sendHandler(jsonBody []byte) {
 		return
 	}
 
+	now := time.Now()
+	timeString := now.Format("2006-01-02 15:04:05")
+
 	host := getEnvStr("HOST", emailBody.Host)
 	port := getEnvInt("PORT", emailBody.Port)
 	password := getEnvStr("PASSWORD", emailBody.Password)
 	fromEmail := getEnvStr("FROM_EMAIL", emailBody.FromEmail)
 	fromName := getEnvStr("FROM_NAME", emailBody.FromName)
 	toEmail := emailBody.ToEmail
+	subject := getEnvStr("SUBJECT", emailBody.Subject)
 
 	headers := make(map[string]string)
 	headers["From"] = fromName + " <" + fromEmail + ">"
 	headers["To"] = toEmail
-	headers["Subject"] = getEnvStr("SUBJECT", emailBody.Subject)
+	headers["Subject"] = subject
 	headers["Content-Type"] = getEnvStr("CONTENT_TYPE", emailBody.ContentType)
 
 	message := ""
@@ -74,9 +79,9 @@ func sendHandler(jsonBody []byte) {
 		fromEmail, []string{toEmail}, []byte(message),
 	)
 	if errSend != nil {
-		fmt.Println("send email err: ", errSend)
+		fmt.Println(timeString, "send email err ", errSend, subject)
 	} else {
-		fmt.Println("send mail success", toEmail)
+		fmt.Println(timeString, "send mail success ", toEmail, subject)
 	}
 }
 
